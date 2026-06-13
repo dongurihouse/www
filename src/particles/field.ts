@@ -54,7 +54,7 @@ export function createField(canvas: HTMLCanvasElement, count: number): Field {
   const target = new Float32Array(count * 2);
 
   let phase: 'drift' | 'form' = 'drift';
-  let phaseStart = 0;
+  let phaseElapsed = 0;
   let shapeIdx = 0;
   const DRIFT_MS = 7000;
   const FORM_MS = 4500;
@@ -82,8 +82,19 @@ export function createField(canvas: HTMLCanvasElement, count: number): Field {
     }
   }
 
+  // Form the shape in the top-right clear area so it isn't hidden behind the centered cards.
+  // Recomputed each frame from the camera bounds, so it adapts to viewport/aspect changes.
   function setTargetShape(buf: Float32Array) {
-    for (let i = 0; i < count * 2; i++) target[i] = buf[i] * 0.62;
+    const halfW = camera.right; // = aspect
+    const halfH = camera.top;   // = 1
+    const m = Math.min(halfW, halfH);
+    const scale = m * 0.34;          // shape sized to the smaller viewport dimension
+    const cx = halfW - scale - m * 0.14; // near the right edge
+    const cy = halfH - scale - 0.18;     // fixed gap below the top nav (clears it on all sizes)
+    for (let i = 0; i < count; i++) {
+      target[i * 2] = buf[i * 2] * scale + cx;
+      target[i * 2 + 1] = buf[i * 2 + 1] * scale + cy;
+    }
   }
 
   function frame(now: number) {
@@ -93,14 +104,14 @@ export function createField(canvas: HTMLCanvasElement, count: number): Field {
     last = now;
     elapsed += dt;
 
-    const inPhase = now - phaseStart;
+    phaseElapsed += dt;
     if (phase === 'drift') {
       setTargetDrift(elapsed);
-      if (inPhase > DRIFT_MS && shapes.length) { phase = 'form'; phaseStart = now; }
+      if (phaseElapsed > DRIFT_MS && shapes.length) { phase = 'form'; phaseElapsed = 0; }
     } else {
       setTargetShape(shapes[shapeIdx]);
-      if (inPhase > FORM_MS) {
-        phase = 'drift'; phaseStart = now;
+      if (phaseElapsed > FORM_MS) {
+        phase = 'drift'; phaseElapsed = 0;
         shapeIdx = (shapeIdx + 1) % shapes.length;
       }
     }
@@ -141,8 +152,7 @@ export function createField(canvas: HTMLCanvasElement, count: number): Field {
   return {
     start() {
       if (running) return;
-      running = true; last = 0;
-      phaseStart = performance.now();
+      running = true; last = 0; phaseElapsed = 0;
       resize();
       window.addEventListener('pointermove', onPointer, { passive: true });
       raf = requestAnimationFrame(frame);
