@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#fbfaf7"/>
+  <g transform="translate(600,250)">
+    <rect x="-8" y="-150" width="16" height="42" rx="8" fill="#5a3c22"/>
+    <path d="M-150 -108 Q-150 -150 0 -150 Q150 -150 150 -108 Q150 -68 0 -68 Q-150 -68 -150 -108 Z" fill="#7a5230"/>
+    <path d="M-120 -82 Q-120 92 0 132 Q120 92 120 -82 Z" fill="#c8852f"/>
+  </g>
+  <text x="600" y="475" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="66" font-weight="600" fill="#18181b">dongurihouse</text>
+  <text x="600" y="530" text-anchor="middle" font-family="-apple-system, Helvetica, Arial, sans-serif" font-size="28" fill="#6b6b6b">hand-made games for iPhone &amp; iPad</text>
+</svg>
