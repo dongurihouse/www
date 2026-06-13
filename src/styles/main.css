@@ -2,20 +2,45 @@
   --bg: #fbfaf7;
   --ink: #18181b;
   --muted: #6b6b6b;
-  --gold: #b9892f;
+  --gold: #b9892f;            /* decorative accent (brand dot, hover, focus ring) */
+  --gold-deep: #7a5117;      /* text-safe gold: passes WCAG AA on white/cream */
   --footer: #15171b;
   --card: #ffffff;
   --maxw: 960px;
 }
 * { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);   /* page bg lives here so the fixed canvas (z-index:-1) shows through */
+  overflow-x: hidden;       /* guard against any accidental horizontal scroll; keeps body sticky-safe */
+}
 body {
-  margin: 0; background: var(--bg); color: var(--ink);
+  margin: 0; background: transparent; color: var(--ink);
   font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   line-height: 1.55; -webkit-font-smoothing: antialiased;
+  /* sticky footer: full-height flex column so the footer sits at the bottom on short pages */
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
+main { flex: 1 0 auto; }   /* grows to push the footer down */
 a { color: inherit; }
 .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 22px; }
+
+/* a11y utilities */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: absolute; left: 8px; top: -48px; z-index: 100;
+  background: var(--ink); color: #fff; padding: 8px 14px;
+  border-radius: 8px; text-decoration: none; transition: top .15s ease;
+}
+.skip:focus { top: 8px; }
+a:focus-visible, .card:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; border-radius: 6px; }
+.footer a:focus-visible { outline-color: #e8c987; }
 
 /* nav */
 .nav {
@@ -25,12 +50,21 @@ a { color: inherit; }
 .nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 58px; }
 .brand { font-weight: 600; letter-spacing: .5px; text-decoration: none; }
 .brand .dot { color: var(--gold); }
-.nav-links a { margin-left: 20px; color: var(--muted); text-decoration: none; font-size: 14px; }
+.nav-links a { display: inline-block; padding: 10px 6px; margin-left: 8px; color: var(--muted); text-decoration: none; font-size: 14px; }
 .nav-links a:hover { color: var(--ink); }
+@media (max-width: 400px) {
+  .nav .wrap { padding: 0 14px; }
+  .nav-links a { margin-left: 2px; padding: 10px 5px; }
+}
 
 /* hero */
-.hero { position: relative; overflow: hidden; }
-#bg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; z-index: 0; }
+.hero { position: relative; }
+/* full-viewport, full-width particle background behind ALL content */
+#bg {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  display: block; z-index: -1; pointer-events: none;
+}
 .hero .wrap { position: relative; z-index: 1; padding-top: 64px; padding-bottom: 72px; text-align: center; }
 .hero h1 { font-size: clamp(28px, 6vw, 48px); line-height: 1.08; margin: 0 0 10px; }
 .hero p.lede { color: var(--muted); font-size: clamp(15px, 2.4vw, 18px); margin: 0 auto; max-width: 36ch; }
@@ -56,15 +90,17 @@ a { color: inherit; }
 
 /* sections */
 .section { padding: 56px 0; border-top: 1px solid #ececec; background: #fff; }
-.label { font-size: 11px; text-transform: uppercase; letter-spacing: 1.4px; color: var(--gold); margin-bottom: 8px; }
+/* inner pages use <main class="section"> directly under the nav — drop the doubled hairline */
+main.section { border-top: 0; }
+.label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1.4px; color: var(--gold-deep); margin: 0 0 8px; }
 .section p { max-width: 60ch; color: #444; }
 .prose h1 { font-size: clamp(24px, 5vw, 34px); }
 .prose h2 { margin-top: 32px; }
 
 /* footer */
-.footer { background: var(--footer); color: #cfcfcf; font-size: 13px; }
+.footer { background: var(--footer); color: #cfcfcf; font-size: 13px; flex-shrink: 0; }
 .footer .wrap { display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; align-items: center; padding: 22px; }
-.footer a { color: #cfcfcf; text-decoration: none; margin-left: 16px; }
+.footer a { display: inline-block; padding: 8px 0; color: #cfcfcf; text-decoration: none; margin-left: 16px; }
 .footer a:hover { color: #fff; }
 
 /* scroll reveal */

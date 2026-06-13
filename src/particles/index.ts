@@ -20,21 +20,11 @@ export async function initParticles(selector = '#bg'): Promise<void> {
   const { createField } = await import('./field'); // lazy: keep three off the critical path
   const field = createField(canvas, count);
 
-  // pause when hero off-screen or tab hidden
-  const hero = canvas.closest('section') ?? canvas.parentElement;
-  let onScreen = true;
-  if (hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(
-      (entries) => {
-        onScreen = entries[0]?.isIntersecting ?? true;
-        if (onScreen && document.visibilityState === 'visible') field.start();
-        else field.stop();
-      },
-      { threshold: 0 },
-    ).observe(hero);
-  }
+  // The canvas is a fixed, full-viewport background (see #bg in main.css), so it is
+  // visible the whole time the tab is. Gate only on tab visibility — not on scroll
+  // position — and keep the field alive (and battery use modest: count-bound, DPR-capped).
   document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible' && onScreen) field.start();
+    if (document.visibilityState === 'visible') field.start();
     else field.stop();
   });
   window.addEventListener('resize', () => field.resize(), { passive: true });

@@ -14,6 +14,7 @@
   <meta name="twitter:card" content="summary_large_image" />
 </head>
 <body>
+  <a class="skip" href="#main">Skip to content</a>
   <header class="nav">
     <div class="wrap">
       <a class="brand" href="/">dongurihouse<span class="dot">.</span></a>
@@ -25,16 +26,17 @@
     </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero">
       <canvas id="bg" aria-hidden="true"></canvas>
       <div class="wrap">
         <h1>Tiny studio.<br />Hand-made games.</h1>
         <p class="lede">An indie studio crafting small worlds for iPhone &amp; iPad.</p>
 
+        <h2 class="visually-hidden">Games</h2>
         <div class="games" id="games">
           <!-- card: vibe-survivor -->
-          <article class="card reveal" tabindex="0" aria-label="Vibe Survivor">
+          <article class="card reveal" tabindex="0" role="button" aria-expanded="false" aria-label="Vibe Survivor">
             <div class="art" style="background-image:url('/art/vibe-survivor.svg')"></div>
             <div class="body">
               <h3>Vibe Survivor</h3>
@@ -43,7 +45,7 @@
             </div>
           </article>
           <!-- card: donguri-merge -->
-          <article class="card reveal" tabindex="0" aria-label="Donguri: Merge!">
+          <article class="card reveal" tabindex="0" role="button" aria-expanded="false" aria-label="Donguri: Merge!">
             <div class="art" style="background-image:url('/art/donguri-merge.svg')"></div>
             <div class="body">
               <h3>Donguri: Merge!</h3>
@@ -57,7 +59,7 @@
 
     <section class="section" id="about">
       <div class="wrap reveal">
-        <div class="label">About</div>
+        <h2 class="label">About</h2>
         <p>dongurihouse is a small independent studio. We make the games we'd want to play — a cozy one to unwind with, and a stranger one to get lost in.</p>
       </div>
     </section>
