@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
+  <defs><linearGradient id="d" x1="0" y1="0" x2="1" y2="1">
+    <stop offset="0" stop-color="#8fbf6e"/><stop offset="1" stop-color="#c9d98a"/>
+  </linearGradient></defs>
+  <rect width="800" height="500" fill="url(#d)"/>
+  <text x="40" y="460" fill="#33401f" font-family="sans-serif" font-size="28">Donguri: Merge! — key art</text>
+</svg>

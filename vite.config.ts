@@ -1,14 +1,14 @@
 /// <reference types="vitest/config" />
 import { defineConfig } from 'vite';
-import { resolve } from 'node:path';
 
+// Multi-page app: input paths are resolved relative to the Vite root (project dir).
 export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
-        support: resolve(__dirname, 'support.html'),
-        privacy: resolve(__dirname, 'privacy.html'),
+        main: 'index.html',
+        support: 'support.html',
+        privacy: 'privacy.html',
       },
     },
   },
