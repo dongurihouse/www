@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { sampleShape } from './shapes';
+import { sampleShape, SHAPE_PATHS } from './shapes';
 import { mulberry32 } from './morph';
 
 export interface Field {
@@ -46,10 +46,10 @@ export function createField(canvas: HTMLCanvasElement, count: number): Field {
   const points = new THREE.Points(geom, material);
   scene.add(points);
 
-  // morph targets: acorn then leaf (fall back to drift only if sampling fails)
-  const acorn = sampleShape('acorn', count);
-  const leaf = sampleShape('leaf', count);
-  const shapes = [acorn, leaf].filter((s): s is Float32Array => s !== null);
+  // morph targets: cycle through every silhouette (fall back to drift if a sample fails)
+  const shapes = (Object.keys(SHAPE_PATHS) as (keyof typeof SHAPE_PATHS)[])
+    .map((name) => sampleShape(name, count))
+    .filter((s): s is Float32Array => s !== null);
 
   const target = new Float32Array(count * 2);
 
