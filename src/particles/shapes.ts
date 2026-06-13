@@ -42,24 +42,19 @@ export const SHAPE_PATHS = {
   heart: 'M50 84 C20 64 14 40 30 30 C40 24 48 30 50 38 C52 30 60 24 70 30 C86 40 80 64 50 84 Z',
 };
 
-// Rasterize a path into a square offscreen canvas and sample `count` points from it.
-// Returns a Float32Array [x,y, ...] in [-1,1] (see collectPoints), or null if canvas/2D unavailable.
-export function sampleShape(
-  name: keyof typeof SHAPE_PATHS,
-  count: number,
-  size = 220,
-): Float32Array | null {
+// Rasterize an SVG path (100x100 viewBox) into a square offscreen canvas and sample
+// `count` points from its fill. Returns [x,y, ...] in [-1,1], or null if 2D is unavailable.
+export function samplePath(d: string, count: number, size = 220): Float32Array | null {
   const canvas = document.createElement('canvas');
   canvas.width = size;
   canvas.height = size;
   const ctx = canvas.getContext('2d');
   if (!ctx) return null;
 
-  // scale 100x100 path coords up to `size`
   ctx.save();
   ctx.scale(size / 100, size / 100);
   ctx.fillStyle = '#000';
-  ctx.fill(new Path2D(SHAPE_PATHS[name])); // nonzero: overlapping subpaths union
+  ctx.fill(new Path2D(d)); // nonzero: overlapping subpaths union
   ctx.restore();
 
   const { data } = ctx.getImageData(0, 0, size, size);
@@ -68,4 +63,8 @@ export function sampleShape(
   } catch {
     return null;
   }
+}
+
+export function sampleShape(name: keyof typeof SHAPE_PATHS, count: number, size = 220): Float32Array | null {
+  return samplePath(SHAPE_PATHS[name], count, size);
 }

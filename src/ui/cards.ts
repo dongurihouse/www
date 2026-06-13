@@ -1,7 +1,9 @@
 import { prefersReducedMotion } from './motion';
+import { hover, type Game } from '../particles/hover';
 
 // Card interactions:
 // - tap/keyboard toggles the description (CSS shows .desc for .open / :hover / :focus-within)
+// - hover/focus tells the particle field which game's scene to play
 // - on hover, the art pans toward the cursor to reveal the image hidden past the edges
 export function initCards(root: ParentNode = document): void {
   const cards = Array.from(root.querySelectorAll<HTMLElement>('.card'));
@@ -21,6 +23,17 @@ export function initCards(root: ParentNode = document): void {
       }
     });
 
+    // tell the particle field which game's themed scene to play
+    const game = card.dataset.game as Game | undefined;
+    if (game) {
+      const enter = () => { hover.game = game; };
+      const leave = () => { if (hover.game === game) hover.game = null; };
+      card.addEventListener('pointerenter', enter);
+      card.addEventListener('focusin', enter);
+      card.addEventListener('pointerleave', leave);
+      card.addEventListener('focusout', leave);
+    }
+
     if (reduce) continue;
     const art = card.querySelector<HTMLElement>('.art');
     if (!art) continue;
@@ -29,7 +42,6 @@ export function initCards(root: ParentNode = document): void {
       const r = card.getBoundingClientRect();
       const mx = (e.clientX - r.left) / r.width;  // 0..1 across the card
       const my = (e.clientY - r.top) / r.height;
-      // pan toward the cursor to reveal that edge (clamped to the oversize margin)
       const px = 50 + (mx - 0.5) * 70;
       const py = 50 + (my - 0.5) * 70;
       art.style.backgroundPosition = `${px}% ${py}%`;
