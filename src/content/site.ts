@@ -30,7 +30,7 @@ export const site: SiteContent = {
       status: 'Coming soon',
       description:
         'An extraction horde-survivor set inside dreams. Get strong, decide when to wake, and gamble your haul.',
-      art: '/art/vibe-survivor.svg',
+      art: '/art/vibe-survivor.jpg',
     },
     {
       slug: 'donguri-merge',
@@ -39,7 +39,7 @@ export const site: SiteContent = {
       status: 'Coming soon',
       description:
         'A relaxing merge game. Grow a homestead, befriend the forest, and restore the grove one acorn at a time.',
-      art: '/art/donguri-merge.svg',
+      art: '/art/donguri-merge.jpg',
     },
   ],
 };
