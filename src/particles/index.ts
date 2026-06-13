@@ -15,7 +15,7 @@ export async function initParticles(selector = '#bg'): Promise<void> {
   if (prefersReducedMotion() || !webglAvailable()) return; // CSS gradient remains; canvas stays empty
 
   const isSmall = Math.min(innerWidth, innerHeight) < 700;
-  const count = isSmall ? 800 : 2500;
+  const count = isSmall ? 1300 : 3600;
 
   const { createField } = await import('./field'); // lazy: keep three off the critical path
   const field = createField(canvas, count);

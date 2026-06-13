@@ -26,6 +26,20 @@ export const SHAPE_PATHS = {
     'M50 44 C40 32 24 30 12 40 C26 42 38 46 50 50 C62 46 74 42 88 40 C76 30 60 32 50 44 Z' +
     'M48 47 C47 47 47 55 48 63 C49 68 51 68 52 63 C53 55 53 47 52 47 Z' +
     'M50 37 C54 37 55 42 50 44 C45 42 46 37 50 37 Z',
+  // star: five-pointed
+  star: 'M50 8 L61 39 L94 39 L67 59 L77 91 L50 71 L23 91 L33 59 L6 39 L39 39 Z',
+  // moon: crescent
+  moon: 'M60 12 C38 12 22 29 22 50 C22 71 38 88 60 88 C45 80 38 66 38 50 C38 34 45 20 60 12 Z',
+  // fish: body + tail fin
+  fish: 'M70 50 C70 40 50 40 38 47 C32 43 24 40 20 38 L22 50 L20 62 C24 60 32 57 38 53 C50 60 70 60 70 50 Z',
+  // mushroom: domed cap + stem
+  mushroom:
+    'M18 46 C18 28 34 18 50 18 C66 18 82 28 82 46 C82 50 78 52 50 52 C22 52 18 50 18 46 Z' +
+    'M40 50 L60 50 L57 86 C57 90 43 90 43 86 Z',
+  // house: roof + body (a nod to dongurihouse)
+  house: 'M16 50 L50 20 L84 50 Z M26 48 L74 48 L74 88 L26 88 Z',
+  // heart
+  heart: 'M50 84 C20 64 14 40 30 30 C40 24 48 30 50 38 C52 30 60 24 70 30 C86 40 80 64 50 84 Z',
 };
 
 // Rasterize a path into a square offscreen canvas and sample `count` points from it.
