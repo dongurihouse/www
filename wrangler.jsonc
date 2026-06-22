@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "dongurihouse-www",
+  "name": "www",
   "compatibility_date": "2026-06-13",
   "build": { "command": "npm run build" },
   "assets": { "directory": "./dist" }
