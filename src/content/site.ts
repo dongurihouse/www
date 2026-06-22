@@ -34,7 +34,7 @@ export const site: SiteContent = {
     },
     {
       slug: 'donguri-merge',
-      title: 'Tiny Grove: Merge!',
+      title: 'Acorn Forest: Merge!',
       tagline: 'A cozy little grove that grows as you play.',
       status: 'Coming soon',
       description:
